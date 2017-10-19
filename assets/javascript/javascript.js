@@ -4,6 +4,8 @@ $( document ).ready(function() {
 	var TrainName = " ";
 	var Destination = " ";
 	var Frequency = " ";
+	var FirstTrainTime = " ";
+
 	var NextArrival = " ";
 	var MinutesAway = 0;
 
@@ -27,18 +29,30 @@ $( document ).ready(function() {
 		console.log(snapshot.val())
 	})
 
-	database.ref().on("child_added", function(snapshot) {
-		console.log(snapshot.val())
-	})
+	// database.ref().on("child_added", function(snapshot) {
+	// 	console.log(snapshot.val())
+	// })
 
-	database.ref().on("child_removed", function(snapshot) {
-		console.log(snapshot.val())
-	})
+	// database.ref().on("child_removed", function(snapshot) {
+	// 	console.log(snapshot.val())
+	// })
 
 
 	//Grabbing the values from the inputs and setting them to the global variables
 	$("#submit").on("click", function() {
 		TrainName = $("#trainname").val().trim();
+		Destination = $("#destination").val().trim();
+		FirstTrainTime = $("#traintime").val().trim();
+		Frequency = $("#trainrate").val().trim();
+
+	    database.ref().push({
+	        TrainName: TrainName, 
+			Destination: Destination,
+			FirstTrainTime: FirstTrainTime, 
+			Frequency: Frequency
+  		});
+
+
 	})
 
 
