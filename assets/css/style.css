@@ -5,7 +5,29 @@ body {
     background-size: cover;
 } 
 
+#title {
+	font-family: 'Arbutus Slab', serif;
+	font-size: 50px;
+}
+
 .jumbotron {
 	background-image: url(../images/train.jpg);
 	background-repeat: no-repeat;
+}
+
+#tabletitle, th {
+	font-family: 'Shrikhand', cursive;
+	font-size: 15px;
+	font-weight: 200;
+}
+
+.classbody, label {
+	font-family: 'Shrikhand', cursive;
+	font-size: 15px;
+	font-weight: 200;
+}
+
+.mainheader {
+	font-family: 'Arbutus Slab', serif;
+	font-size: 30px;
 }
