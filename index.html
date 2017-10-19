@@ -14,6 +14,8 @@
 
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+	<link href="https://fonts.googleapis.com/css?family=Arbutus+Slab|Shrikhand" rel="stylesheet">
+
 </head>
 
 <body>
@@ -22,7 +24,7 @@
 		
 		<div class="row">
 			<div class="jumbotron" style="text-align: center;">
-				<h1>Chicago Train Schedule</h1>
+				<h1 id="title">Chicago Train Schedule</h1>
 			</div>
 		</div>
 		
@@ -33,16 +35,16 @@
 
 				<div class="panel-heading panel-heading-custom">
 
-					<h1 id="main-header">Train Scheudle</h1>
+					<h1 class="mainheader">Train Scheudle</h1>
 
 				</div>
 
 				<div class="panel-body">
 
-					<table class="table">
-
+					<table class="table" id="traintable">
+						
 						<thread>
-							<tr>
+							<tr id="tabletitle">
 								<th>Train Name</th>
 								<th>Desination</th>
 								<th>Frequency (min)</th>
@@ -50,8 +52,6 @@
 								<th>Minutes Away</th>
 							</tr>
 						</thread>
-
-						<div id="display"></div>
 
 					</table>
 						
@@ -66,7 +66,7 @@
 			<div class="panel panel-primary">
 
 		    <div class="panel-heading panel-heading-custom">
-		    	<h1 id="subheader">Add Employee</h1>
+		    	<h1 class="mainheader">Add Train</h1>
 		    </div>
 
 		    <div class="panel-body">
@@ -91,7 +91,7 @@
 					<input type="text" class="form-control" id="trainrate">
 				</div>
 
-				<button class="btn-success">Submit</button>
+				<button class="btn-success" id="submit">Submit</button>
 
 			</div>
 
