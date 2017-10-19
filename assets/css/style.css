@@ -1,0 +1,11 @@
+body {
+	background-image: url(../images/train1.jpg);
+	background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+} 
+
+.jumbotron {
+	background-image: url(../images/train.jpg);
+	background-repeat: no-repeat;
+}
