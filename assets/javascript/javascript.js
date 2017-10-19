@@ -29,22 +29,16 @@ $( document ).ready(function() {
 		console.log(snapshot.val())
 	})
 
-	// database.ref().on("child_added", function(snapshot) {
-	// 	console.log(snapshot.val())
-	// })
-
-	// database.ref().on("child_removed", function(snapshot) {
-	// 	console.log(snapshot.val())
-	// })
-
-
 	//Grabbing the values from the inputs and setting them to the global variables
 	$("#submit").on("click", function() {
+		event.preventDefault();
+
 		TrainName = $("#trainname").val().trim();
 		Destination = $("#destination").val().trim();
 		FirstTrainTime = $("#traintime").val().trim();
 		Frequency = $("#trainrate").val().trim();
 
+		//Pushing the user inputs to firebase
 	    database.ref().push({
 	        TrainName: TrainName, 
 			Destination: Destination,
@@ -52,8 +46,22 @@ $( document ).ready(function() {
 			Frequency: Frequency
   		});
 
+	    // Clears all of the text-boxes
+		$("#trainname").val("");
+		$("#destination").val("");
+		$("#trainname").val("");
+		$("#trainrate").val("");
 
+	});
+
+	database.ref().on("child_added" function(childsnapshot){
+
+		//Store everything in variables
+		var childtrainname = childsnapshot.val().TrainName;
+		var childdestination = childsnapshot.val().Destination;
+		var childfirsttraintime = childsnapshot.val().FirstTrainTime;
+		var childfrequency = childsnapshot.val().Frequency;
+		
 	})
-
 
 });
