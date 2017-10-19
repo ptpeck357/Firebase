@@ -43,7 +43,8 @@ $( document ).ready(function() {
 	        TrainName: TrainName, 
 			Destination: Destination,
 			FirstTrainTime: FirstTrainTime, 
-			Frequency: Frequency
+			Frequency: Frequency,
+			DateAdded: firebase.database.ServerValue.TIMESTAMP
   		});
 
 	    // Clears all of the text-boxes
@@ -57,7 +58,9 @@ $( document ).ready(function() {
 
 	database.ref().on("child_added", function(childsnapshot) {
 
-		//Store everything in variables
+		console.log(childsnapshot)
+
+		//Store everything in variables from the "child" data
 		var childtrainname = childsnapshot.val().TrainName;
 		var childdestination = childsnapshot.val().Destination;
 		var childfirsttraintime = childsnapshot.val().FirstTrainTime;
