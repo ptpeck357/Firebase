@@ -25,9 +25,9 @@ $( document ).ready(function() {
 	var database = firebase.database();
 
 	//Going into the database and console logging ALL of the values in the database in firebase. The parameter is "snapshot"
-	database.ref().on("value", function(snapshot) {
-		console.log(snapshot.val())
-	})
+	// database.ref().on("value", function(snapshot) {
+	// 	console.log(snapshot.val())
+	// })
 
 	//Grabbing the values from the inputs and setting them to the global variables
 	$("#submit").on("click", function() {
@@ -49,19 +49,22 @@ $( document ).ready(function() {
 	    // Clears all of the text-boxes
 		$("#trainname").val("");
 		$("#destination").val("");
-		$("#trainname").val("");
+		$("#traintime").val("");
 		$("#trainrate").val("");
+
 
 	});
 
-	database.ref().on("child_added" function(childsnapshot){
+	database.ref().on("child_added", function(childsnapshot) {
 
 		//Store everything in variables
 		var childtrainname = childsnapshot.val().TrainName;
 		var childdestination = childsnapshot.val().Destination;
 		var childfirsttraintime = childsnapshot.val().FirstTrainTime;
 		var childfrequency = childsnapshot.val().Frequency;
-		
-	})
+
+		//Uploading the results to the HTML page
+		$("tbody").append("<tr><td>" + childtrainname + "</td><td>" + childdestination + "</td><td>" + childfrequency + "</td><td>" + childfirsttraintime + "</td><td>" + MinutesAway +  "</td></tr>");
+	});
 
 });
