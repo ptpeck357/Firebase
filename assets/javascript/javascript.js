@@ -9,6 +9,10 @@ $( document ).ready(function() {
 	var NextArrival = " ";
 	var MinutesAway = 0;
 
+	// Current Time
+	var currentTime = moment();
+	console.log( moment(currentTime).format("hh:mm"));
+
 	// Initialize Firebase
 	var config = {
 	    apiKey: "AIzaSyD3rIedSTLHdZqgZMnXE9rEPdhw2ES22hA",
@@ -53,12 +57,9 @@ $( document ).ready(function() {
 		$("#traintime").val("");
 		$("#trainrate").val("");
 
-
 	});
 
 	database.ref().on("child_added", function(childsnapshot) {
-
-		console.log(childsnapshot)
 
 		//Store everything in variables from the "child" data
 		var childtrainname = childsnapshot.val().TrainName;
