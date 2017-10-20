@@ -80,8 +80,8 @@ $(document).ready(function() {
 
 			//Uploading the results to the HTML page
 			$("#display").append("<tr><td>" + childtrainname + "</td><td>" + childdestination + "</td><td>" + Frequency + "</td><td>" 
-								+ nextTrainconverted + "</td><td>" + MinutesTillTrain + "</td></tr>");
-			
+								+ nextTrainconverted + "</td><td>" + MinutesTillTrain + 
+								"<button class='btn' style='float: right'>" + "Delete" + "</button>" +  "</td></tr>");
 		});
 	}
 
