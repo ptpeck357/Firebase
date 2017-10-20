@@ -1,5 +1,8 @@
 $(document).ready(function() {
 
+	var intervalId;
+	var time = 1;
+	var initialtime = time;
 	// Initialize Firebase
 	var config = {
 	    apiKey: "AIzaSyD3rIedSTLHdZqgZMnXE9rEPdhw2ES22hA",
@@ -42,37 +45,56 @@ $(document).ready(function() {
 
 	});
 
-	database.ref().on("child_added", function(childsnapshot) {
+	function uploaddata(){
 
-		//Store everything in variables from the "child" data
-		var childtrainname = childsnapshot.val().TrainName;
-		var childdestination = childsnapshot.val().Destination;
-		StartTime = childsnapshot.val().FirstTrainTime;
-		console.log(StartTime)
-		Frequency = parseInt(childsnapshot.val().Frequency);
+		database.ref().on("child_added", function(childsnapshot) {
 
-		var firstTimeConverted = moment(StartTime, "hh:mm").subtract(1, "years");
+			//Store everything in variables from the "child" data
+			var childtrainname = childsnapshot.val().TrainName;
+			var childdestination = childsnapshot.val().Destination;
+			StartTime = childsnapshot.val().FirstTrainTime;
+			Frequency = parseInt(childsnapshot.val().Frequency);
 
-		//Current Time of the user
-		var currentTime = moment().format("hh:mm a");
-		console.log(currentTime);
+			//Converting StartTime of the train to the format 'hh:mm'
+			var firstTimeConverted = moment(StartTime, "hh:mm");
 
-		// //Working with time
-		var diffTime = moment().diff(moment(firstTimeConverted), "minutes");
-		console.log(diffTime);
+			//Finding the difference between the First Time when the Train leaves to the current time of the user
+			var diffTime = moment().diff(moment(firstTimeConverted), "minutes");
 
-		var Remainder = diffTime % Frequency;
-		console.log(Remainder);
+			//Finding the remainder of the difference
+			var Remainder = diffTime % Frequency;
 
-		var MinutesTillTrain = Frequency - Remainder;
+			//Find the difference again between Frequency and Remainder and setting it to a variable
+			var MinutesTillTrain = Frequency - Remainder;
 
-		var nextTrain = moment().add(MinutesTillTrain, "minutes");
+			//
+			var nextTrain = moment().add(MinutesTillTrain, "minutes");
 
-		var nextTrainconverted = moment(nextTrain).format("hh:mm a");
+			//Converting the variable 'nextTrain' time to the format 'hh:mm a'
+			var nextTrainconverted = moment(nextTrain).format("hh:mm:ss a");
 
-		//Uploading the results to the HTML page
-		$("tbody").append("<tr><td>" + childtrainname + "</td><td>" + childdestination + "</td><td>" + Frequency + "</td><td>" + nextTrainconverted + "</td><td>" + MinutesTillTrain + "</td></tr>");
-		
-	});
+			//Uploading the results to the HTML page
+			$("tbody").append("<tr><td>" + childtrainname + "</td><td>" + childdestination + "</td><td>" + Frequency + "</td><td>" + nextTrainconverted + "</td><td>" + MinutesTillTrain + "</td></tr>");
+			
+		});
+}
+
+function start() {
+  intervalId = setInterval(count, 1000);
+};
+
+function count() {
+	time--;
+	console.log(time);
+		if(time === 0){
+			$("tbody").html("")
+	  		uploaddata();
+	  		time = initialtime;
+  		};
+};
+
+start();
+
+uploaddata();
 
 });
