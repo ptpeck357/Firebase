@@ -2,7 +2,7 @@ $(document).ready(function() {
 
 	//Defining variables globally for the timer
 	var intervalId;
-	var time = 1;
+	var time = 60;
 	var initialtime = time;
 
 
@@ -40,7 +40,7 @@ $(document).ready(function() {
 			DateAdded: firebase.database.ServerValue.TIMESTAMP
   		});
 
-	    // Clears all of the text-boxes
+	    // Clears all of the text-boxes each time we call data from firebase
 		$("#trainname").val("");
 		$("#destination").val("");
 		$("#traintime").val("");
@@ -53,7 +53,7 @@ $(document).ready(function() {
 
 		//The firebase call to go through the data when a child is added to our data
 		database.ref().on("child_added", function(childsnapshot) {
-
+			
 			//Store everything in variables from the "child" data
 			var childtrainname = childsnapshot.val().TrainName;
 			var childdestination = childsnapshot.val().Destination;
@@ -76,14 +76,28 @@ $(document).ready(function() {
 			var nextTrain = moment().add(MinutesTillTrain, "minutes");
 
 			//Converting the variable 'nextTrain' time to the format 'hh:mm a'
-			var nextTrainconverted = moment(nextTrain).format("hh:mm:ss a");
+			var nextTrainconverted = moment(nextTrain).format("hh:mm a");
 
 			//Uploading the results to the HTML page
 			$("#display").append("<tr><td>" + childtrainname + "</td><td>" + childdestination + "</td><td>" + Frequency + "</td><td>" 
 								+ nextTrainconverted + "</td><td>" + MinutesTillTrain + 
-								"<button class='btn' style='float: right'>" + "Delete" + "</button>" +  "</td></tr>");
+								"<button class='btn glyphicon glyphicon-trash' id='delete' style='float: right'>" + "</button>" +  "</td></tr>");
+
 		});
 	}
+
+	//Click function to delete that current row of values in the table
+		$("#delete").on("click", function() {
+			console.log("button works")
+			// database.ref().on("child_removed", function(childsnapshot) {
+				
+				
+
+			// })
+
+		});
+
+	
 
 	//We are counting by 1000 mili second and calling the "count" function each time
 	function start() {
@@ -101,7 +115,7 @@ $(document).ready(function() {
 				$("#display").html("")
 		  		uploaddata();
 
-		  		//We reset the time to the initaltime which is 1
+		  		//We reset the time to the initaltime which is 60
 		  		time = initialtime;
 	  		};
 	};
