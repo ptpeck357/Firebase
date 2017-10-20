@@ -1,8 +1,11 @@
 $(document).ready(function() {
 
+	//Defining variables globally for the timer
 	var intervalId;
 	var time = 1;
 	var initialtime = time;
+
+
 	// Initialize Firebase
 	var config = {
 	    apiKey: "AIzaSyD3rIedSTLHdZqgZMnXE9rEPdhw2ES22hA",
@@ -45,8 +48,10 @@ $(document).ready(function() {
 
 	});
 
+	//Function to go through the children in firebase and pulling data and putting it into the HTML
 	function uploaddata(){
 
+		//The firebase call to go through the data when a child is added to our data
 		database.ref().on("child_added", function(childsnapshot) {
 
 			//Store everything in variables from the "child" data
@@ -67,34 +72,44 @@ $(document).ready(function() {
 			//Find the difference again between Frequency and Remainder and setting it to a variable
 			var MinutesTillTrain = Frequency - Remainder;
 
-			//
+			//Adding the current time of the users with the 'MinutesTillTrain' and making sure it is in minutes
 			var nextTrain = moment().add(MinutesTillTrain, "minutes");
 
 			//Converting the variable 'nextTrain' time to the format 'hh:mm a'
 			var nextTrainconverted = moment(nextTrain).format("hh:mm:ss a");
 
 			//Uploading the results to the HTML page
-			$("tbody").append("<tr><td>" + childtrainname + "</td><td>" + childdestination + "</td><td>" + Frequency + "</td><td>" + nextTrainconverted + "</td><td>" + MinutesTillTrain + "</td></tr>");
+			$("#display").append("<tr><td>" + childtrainname + "</td><td>" + childdestination + "</td><td>" + Frequency + "</td><td>" 
+								+ nextTrainconverted + "</td><td>" + MinutesTillTrain + "</td></tr>");
 			
 		});
-}
+	}
 
-function start() {
-  intervalId = setInterval(count, 1000);
-};
+	//We are counting by 1000 mili second and calling the "count" function each time
+	function start() {
+	  	intervalId = setInterval(count, 1000);
+	};
 
-function count() {
-	time--;
-	console.log(time);
-		if(time === 0){
-			$("tbody").html("")
-	  		uploaddata();
-	  		time = initialtime;
-  		};
-};
+	//This function holds the decrementer for time
+	function count() {
 
+		//Decrements by 1
+		time--;
+
+			//When time equals 0, it gets rid of the previous data calls the "uploaddata" function to go through the children values in firebase
+			if(time === 0){
+				$("#display").html("")
+		  		uploaddata();
+
+		  		//We reset the time to the initaltime which is 1
+		  		time = initialtime;
+	  		};
+	};
+
+//Calls "start" function to start the timer
 start();
 
+//At first load of page, calls the function "uploaddata" to go through all the "child" values in firebase and grab the data and print them onto the html
 uploaddata();
 
 });
