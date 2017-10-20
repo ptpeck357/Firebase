@@ -1,4 +1,4 @@
-$( document ).ready(function() {
+$(document).ready(function() {
 
 	//Setting global variables
 	var TrainName = " ";
@@ -28,19 +28,32 @@ $( document ).ready(function() {
 	//This is how we access the data in firebase by setting it to a variable
 	var database = firebase.database();
 
-	//Going into the database and console logging ALL of the values in the database in firebase. The parameter is "snapshot"
-	// database.ref().on("value", function(snapshot) {
-	// 	console.log(snapshot.val())
-	// })
-
 	//Grabbing the values from the inputs and setting them to the global variables
 	$("#submit").on("click", function() {
 		event.preventDefault();
 
 		TrainName = $("#trainname").val().trim();
 		Destination = $("#destination").val().trim();
-		FirstTrainTime = $("#traintime").val().trim();
+		StartTime = $("#traintime").val().trim();
 		Frequency = $("#trainrate").val().trim();
+
+		//Working with time
+		var firstTimeConverted = moment(StartTime, "hh:mm").subtract(1, "years");
+		console.log(firstTimeConverted);
+
+		var currenttimeconverted = moment(currentTime).format("hh:mm");
+
+		var diffTime = moment().diff(moment(firstTimeConverted), "minutes");
+
+		var Remainder = diffTime % Frequency;
+
+		var MinutesTillTrain = Frequency - Remainder;
+
+		var nextTrain = moment().add(MinutesTillTrain, "minutes");
+
+    	console.log("ARRIVAL TIME: " + moment(nextTrain).format("hh:mm"));
+
+
 
 		//Pushing the user inputs to firebase
 	    database.ref().push({
@@ -68,7 +81,8 @@ $( document ).ready(function() {
 		var childfrequency = childsnapshot.val().Frequency;
 
 		//Uploading the results to the HTML page
-		$("tbody").append("<tr><td>" + childtrainname + "</td><td>" + childdestination + "</td><td>" + childfrequency + "</td><td>" + childfirsttraintime + "</td><td>" + MinutesAway +  "</td></tr>");
+		$("tbody").append("<tr><td>" + childtrainname + "</td><td>" + childdestination + "</td><td>" + childfrequency + "</td><td>" + NextArrival + "</td><td>" + MinutesAway +  "</td></tr>");
+		
 	});
 
 });
