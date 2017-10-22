@@ -10,11 +10,6 @@ body {
 	font-size: 50px;
 }
 
-.jumbotron {
-	background-image: url(../images/train.jpg);
-	background-repeat: no-repeat;
-}
-
 #tabletitle, th {
 	font-family: 'Shrikhand', cursive;
 	font-size: 20px;

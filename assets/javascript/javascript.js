@@ -53,7 +53,7 @@ $(document).ready(function() {
 
 		//The firebase call to go through the data when a child is added to our data
 		database.ref().on("child_added", function(childsnapshot) {
-			
+
 			//Store everything in variables from the "child" data
 			var childtrainname = childsnapshot.val().TrainName;
 			var childdestination = childsnapshot.val().Destination;
@@ -79,25 +79,22 @@ $(document).ready(function() {
 			var nextTrainconverted = moment(nextTrain).format("hh:mm a");
 
 			//Uploading the results to the HTML page
-			$("#display").append("<tr><td>" + childtrainname + "</td><td>" + childdestination + "</td><td>" + Frequency + "</td><td>" 
+			$("#traintable > tbody").append("<tr><td>" + childtrainname + "</td><td>" + childdestination + "</td><td>" + Frequency + "</td><td>" 
 								+ nextTrainconverted + "</td><td>" + MinutesTillTrain + 
-								"<button class='btn glyphicon glyphicon-trash' id='delete' style='float: right'>" + "</button>" +  "</td></tr>");
+								"<button class='btn glyphicon glyphicon-trash delete' data-name'name' style='float: right'>" + "</button>" +  "</td></tr>");
 
+			// Click function to delete that current row of values in the table
+			$(".delete").on("click", function() {
+				
+				
+				
+			});
+			
 		});
 	}
 
-	//Click function to delete that current row of values in the table
-		$("#delete").on("click", function() {
-			console.log("button works")
-			// database.ref().on("child_removed", function(childsnapshot) {
-				
-				
-
-			// })
-
-		});
-
 	
+
 
 	//We are counting by 1000 mili second and calling the "count" function each time
 	function start() {
