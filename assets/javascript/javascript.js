@@ -76,10 +76,10 @@ $(document).ready(function() {
 			var nextTrain = moment().add(MinutesTillTrain, "minutes");
 
 			//Converting the variable 'nextTrain' time to the format 'hh:mm a'
-			var nextTrainconverted = moment(nextTrain).format("hh:mm a");
+			var nextTrainconverted = moment(nextTrain).format("hh:mm:ss a");
 
 			//Uploading the results to the HTML page
-			$("#traintable > tbody").append("<tr><td>" + childtrainname + "</td><td>" + childdestination + "</td><td>" + Frequency + "</td><td>" 
+			$("#traintable > #display").append("<tr><td>" + childtrainname + "</td><td>" + childdestination + "</td><td>" + Frequency + "</td><td>" 
 								+ nextTrainconverted + "</td><td>" + MinutesTillTrain + 
 								"<button class='btn glyphicon glyphicon-trash delete' data-name'name' style='float: right'>" + "</button>" +  "</td></tr>");
 
