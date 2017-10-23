@@ -1,3 +1,7 @@
+.container{
+	width: 100%;
+}
+
 body {
 	background-image: url(../images/train1.jpg);
 	background-repeat: no-repeat;
@@ -10,7 +14,11 @@ body {
 	font-size: 50px;
 }
 
-#tabletitle, th {
+.table {
+	width: 100%;
+}
+
+th {
 	font-family: 'Shrikhand', cursive;
 	font-size: 20px;
 	font-weight: 200;
@@ -22,7 +30,7 @@ body {
 	font-weight: 200;
 }
 
-.mainheader {
+.panel-title{
 	font-family: 'Arbutus Slab', serif;
 	font-size: 30px;
 }
