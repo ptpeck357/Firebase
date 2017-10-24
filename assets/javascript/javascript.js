@@ -54,6 +54,9 @@ $(document).ready(function() {
 		//The firebase call to go through the data when a child is added to our data
 		database.ref().on("child_added", function(childsnapshot) {
 
+			//Grabs key from childsnapshot and sets it to variable
+			var key = childsnapshot.key;
+
 			//Store everything in variables from the "child" data
 			var childtrainname = childsnapshot.val().TrainName;
 			var childdestination = childsnapshot.val().Destination;
@@ -80,21 +83,27 @@ $(document).ready(function() {
 
 			//Uploading the results to the HTML page
 			$("#traintable > tbody").append("<tr><td>" + childtrainname + "</td><td>" + childdestination + "</td><td>" + Frequency + "</td><td>" 
-								+ nextTrainconverted + "</td><td>" + MinutesTillTrain + 
-								"<button class='btn glyphicon glyphicon-trash delete' data-name'name' style='float: right'>" + "</button>" +  "</td></tr>");
-
-			// Click function to delete that current row of values in the table
-			$(".delete").on("click", function() {
-				
-				
-				
-			});
+			+ nextTrainconverted + "</td><td>" + MinutesTillTrain + "<button class='btn glyphicon glyphicon-trash delete' data-name='" + key + "' style='float: right'>" + "</button>" +  "</td></tr>");
 			
 		});
 	}
 
-	
+		// Click function to delete that current row of values in the table
+		$(document).on("click", ".delete", function() {
+			
+			//Grabs the specific key and sets it to a variable
+			var key = $(this).attr("data-name");
 
+			//Calls firebase and removes this specific child with this key
+			database.ref().child(key).remove();
+
+			//We clear the display div
+			$("#display").html("")
+
+			//Then we call the 'uploaddata' function to update the table
+			uploaddata();
+			
+		});
 
 	//We are counting by 1000 mili second and calling the "count" function each time
 	function start() {
