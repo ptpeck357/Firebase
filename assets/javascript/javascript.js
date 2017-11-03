@@ -2,7 +2,7 @@ $(document).ready(function() {
 
 	//Defining variables globally for the timer
 	var intervalId;
-	var time =60;
+	var time =30;
 	var initialtime = time;
 
 
@@ -21,46 +21,64 @@ $(document).ready(function() {
 	//This is how we access the data in firebase by setting it to a variable
 	var database = firebase.database();
 
+	//Submit with enter key
+	$(document).bind('keydown', function(e) {
+
+        if (e.keyCode==13) {
+
+            e.preventDefault(); 
+
+            $("#submit").trigger("click");
+
+        };
+    });
+
 	//Grabbing the values from the inputs and setting them to the global variables
-	$("#submit").on("click", function() {
+	$("#submit").on("click", function(event){
+
 		event.preventDefault();
 
+		//Stores user's 
 		var TrainName = $("#trainname").val().trim();
 		var Destination = $("#destination").val().trim();
 		var StartTime = $("#traintime").val().trim();
 		var Frequency = $("#trainrate").val().trim();
 
+		if(TrainName && destination && StartTime && Frequency){
 
-		//Pushing the user inputs to firebase
-	    database.ref().push({
-	        TrainName: TrainName, 
-			Destination: Destination,
-			FirstTrainTime: StartTime, 
-			Frequency: Frequency,
-			DateAdded: firebase.database.ServerValue.TIMESTAMP
-  		});
+			//Pushing the user inputs to firebase
+		    database.ref().push({
+		        TrainName: TrainName, 
+				Destination: Destination,
+				FirstTrainTime: StartTime, 
+				Frequency: Frequency,
+				DateAdded: firebase.database.ServerValue.TIMESTAMP
+	  		});
+		}
 
-	    // Clears all of the text-boxes each time we call data from firebase
+		// Clears all of the text-boxes each time we call data from firebase
 		$("#trainname").val("");
 		$("#destination").val("");
 		$("#traintime").val("");
 		$("#trainrate").val("");
-
 	});
 
 	//Function to go through the children in firebase and pulling data and putting it into the HTML
 	function uploaddata(){
 
 		//The firebase call to go through the data when a child is added to our data
-		database.ref().on("child_added", function(childsnapshot) {
+		database.ref().on("child_added", function(childsnapshot){
 
 			//Grabs key from childsnapshot and sets it to variable
 			var key = childsnapshot.key;
 
 			//Store everything in variables from the "child" data
 			var childtrainname = childsnapshot.val().TrainName;
+
 			var childdestination = childsnapshot.val().Destination;
+
 			StartTime = childsnapshot.val().FirstTrainTime;
+
 			Frequency = parseInt(childsnapshot.val().Frequency);
 
 			//Converting StartTime of the train to the format 'hh:mm'
@@ -118,7 +136,9 @@ $(document).ready(function() {
 
 			//When time equals 0, it gets rid of the previous data calls the "uploaddata" function to go through the children values in firebase
 			if(time === 0){
-				$("#display").html("")
+
+				$("#display").html("");
+				
 		  		uploaddata();
 
 		  		//We reset the time to the initaltime which is 60
