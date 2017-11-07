@@ -50,13 +50,13 @@ $(document).ready(function() {
 			FirstTrainTime: StartTime, 
 			Frequency: Frequency,
 			DateAdded: firebase.database.ServerValue.TIMESTAMP
-		}
+		};
 
 		if(TrainName && destination && StartTime && Frequency){
 
 			//Pushing the user inputs to firebase
 		    database.ref().push(trainData);
-		}
+		};
 
 		// Clears all of the text-boxes each time we call data from firebase
 		$("#trainname").val("");
@@ -79,21 +79,21 @@ $(document).ready(function() {
 
 			var childdestination = childsnapshot.val().Destination;
 
-			StartTime = childsnapshot.val().FirstTrainTime;
+			var ChildStartTime = childsnapshot.val().FirstTrainTime;
 
-			Frequency = parseInt(childsnapshot.val().Frequency);
+			var ChildFrequency = parseInt(childsnapshot.val().Frequency);
 
 			//Converting StartTime of the train to the format 'hh:mm'
-			var firstTimeConverted = moment(StartTime, "hh:mm");
+			var firstTimeConverted = moment(ChildStartTime, "hh:mm");
 
 			//Finding the difference between the First Time when the Train leaves to the current time of the user
 			var diffTime = moment().diff(moment(firstTimeConverted), "minutes");
 
 			//Finding the remainder of the difference
-			var Remainder = diffTime % Frequency;
+			var Remainder = diffTime % ChildFrequency;
 
 			//Find the difference again between Frequency and Remainder and setting it to a variable
-			var MinutesTillTrain = Frequency - Remainder;
+			var MinutesTillTrain = ChildFrequency - Remainder;
 
 			//Adding the current time of the users with the 'MinutesTillTrain' and making sure it is in minutes
 			var nextTrain = moment().add(MinutesTillTrain, "minutes");
@@ -102,7 +102,7 @@ $(document).ready(function() {
 			var nextTrainconverted = moment(nextTrain).format("hh:mm a");
 
 			//Uploading the results to the HTML page
-			$("#traintable > tbody").append("<tr><td>" + childtrainname + "</td><td>" + childdestination + "</td><td>" + Frequency + "</td><td>" 
+			$("#traintable > tbody").append("<tr><td>" + childtrainname + "</td><td>" + childdestination + "</td><td>" + ChildFrequency + "</td><td>" 
 			+ nextTrainconverted + "</td><td>" + MinutesTillTrain + "<button class='btn glyphicon glyphicon-trash delete' data-name='" + key + "' style='float: right'>" + "</button>" +  "</td></tr>");
 			
 		});
