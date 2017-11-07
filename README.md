@@ -1,1 +1,13 @@
-<h6 style="color: blue;">you'll create a train schedule application that incorporates Firebase to host arrival and departure data. Your app will retrieve and manipulate this information with Moment.js. This website will provide up-to-date information about various trains, namely their arrival times and how many minutes remain until they arrive at their station.</h6>
+#Know Your Train Schedule 
+
+<h2>Functionality</h2>
+
+<h2>Technologies Used:</h2>
+
+* HTML
+* CSS
+* Materialize
+* JavaScript
+* Jquery
+* Firebase
+* Moment JS

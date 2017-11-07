@@ -44,16 +44,18 @@ $(document).ready(function() {
 		var StartTime = $("#traintime").val().trim();
 		var Frequency = $("#trainrate").val().trim();
 
+		var trainData = {
+			TrainName: TrainName, 
+			Destination: Destination,
+			FirstTrainTime: StartTime, 
+			Frequency: Frequency,
+			DateAdded: firebase.database.ServerValue.TIMESTAMP
+		}
+
 		if(TrainName && destination && StartTime && Frequency){
 
 			//Pushing the user inputs to firebase
-		    database.ref().push({
-		        TrainName: TrainName, 
-				Destination: Destination,
-				FirstTrainTime: StartTime, 
-				Frequency: Frequency,
-				DateAdded: firebase.database.ServerValue.TIMESTAMP
-	  		});
+		    database.ref().push(trainData);
 		}
 
 		// Clears all of the text-boxes each time we call data from firebase
