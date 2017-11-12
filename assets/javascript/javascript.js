@@ -1,11 +1,5 @@
 $(document).ready(function() {
 
-	//Defining variables globally for the timer
-	var intervalId;
-	var time =30;
-	var initialtime = time;
-
-
 	// Initialize Firebase
 	var config = {
 	    apiKey: "AIzaSyD3rIedSTLHdZqgZMnXE9rEPdhw2ES22hA",
@@ -19,7 +13,7 @@ $(document).ready(function() {
 	firebase.initializeApp(config);
 
 	//This is how we access the data in firebase by setting it to a variable
-	var database = firebase.database();
+	var trainDatabase = firebase.database();
 
 	//Submit with enter key
 	$(document).bind('keydown', function(e) {
@@ -48,14 +42,12 @@ $(document).ready(function() {
 			TrainName: TrainName, 
 			Destination: Destination,
 			FirstTrainTime: StartTime, 
-			Frequency: Frequency,
-			DateAdded: firebase.database.ServerValue.TIMESTAMP
+			Frequency: Frequency
 		};
 
 		if(TrainName && destination && StartTime && Frequency){
-
 			//Pushing the user inputs to firebase
-		    database.ref().push(trainData);
+		    trainDatabase.ref().push(trainData);
 		};
 
 		// Clears all of the text-boxes each time we call data from firebase
@@ -63,13 +55,11 @@ $(document).ready(function() {
 		$("#destination").val("");
 		$("#traintime").val("");
 		$("#trainrate").val("");
+
 	});
 
-	//Function to go through the children in firebase and pulling data and putting it into the HTML
-	function uploaddata(){
-
 		//The firebase call to go through the data when a child is added to our data
-		database.ref().on("child_added", function(childsnapshot){
+		trainDatabase.ref().on("child_added", function(childsnapshot){
 
 			//Grabs key from childsnapshot and sets it to variable
 			var key = childsnapshot.key;
@@ -106,7 +96,7 @@ $(document).ready(function() {
 			+ nextTrainconverted + "</td><td>" + MinutesTillTrain + "<button class='btn glyphicon glyphicon-trash delete' data-name='" + key + "' style='float: right'>" + "</button>" +  "</td></tr>");
 			
 		});
-	}
+	
 
 		// Click function to delete that current row of values in the table
 		$(document).on("click", ".delete", function() {
@@ -115,43 +105,13 @@ $(document).ready(function() {
 			var key = $(this).attr("data-name");
 
 			//Calls firebase and removes this specific child with this key
-			database.ref().child(key).remove();
+			trainDatabase.ref().child(key).remove();
+			
+			location.reload();
 
-			//We clear the display div
-			$("#display").html("")
-
-			//Then we call the 'uploaddata' function to update the table
-			uploaddata();
+			if(navigator.userAgent.match(/Chrome|AppleWebKit/)){
+				window.location.href = "#traintable";
+			}
 			
 		});
-
-	//We are counting by 1000 mili second and calling the "count" function each time
-	function start() {
-	  	intervalId = setInterval(count, 1000);
-	};
-
-	//This function holds the decrementer for time
-	function count() {
-
-		//Decrements by 1
-		time--;
-
-			//When time equals 0, it gets rid of the previous data calls the "uploaddata" function to go through the children values in firebase
-			if(time === 0){
-
-				$("#display").html("");
-				
-		  		uploaddata();
-
-		  		//We reset the time to the initaltime which is 60
-		  		time = initialtime;
-	  		};
-	};
-
-//Calls "start" function to start the timer
-start();
-
-//At first load of page, calls the function "uploaddata" to go through all the "child" values in firebase and grab the data and print them onto the html
-uploaddata();
-
 });
