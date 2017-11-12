@@ -8,7 +8,6 @@ Enter a name of a train, the destination, start time, and frequency to determine
 
 * HTML
 * CSS
-* Materialize
 * JavaScript
 * Jquery
 * Firebase
