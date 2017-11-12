@@ -110,8 +110,10 @@ $(document).ready(function() {
 			location.reload();
 
 			if(navigator.userAgent.match(/Chrome|AppleWebKit/)){
+
 				window.location.href = "#traintable";
-			}
-			
+
+			};
+
 		});
 });
