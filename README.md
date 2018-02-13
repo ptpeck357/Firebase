@@ -11,4 +11,5 @@ Enter a name of a train, the destination, start time, and frequency to determine
 * JavaScript
 * Jquery
 * Firebase
+* Bootstrap 3.7
 * Moment JS
